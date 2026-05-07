@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrizionista - Calcolo Composizione Corporea</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar per i profili -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-heart-pulse"></i> NutriCalc</h2>
+            </div>
+            
+            <div class="profile-section">
+                <h3>Profili Utente</h3>
+                <div class="profile-controls">
+                    <input type="text" id="new-profile-name" placeholder="Nuovo profilo..." autocomplete="off">
+                    <button id="btn-add-profile" title="Aggiungi Profilo"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <ul id="profile-list" class="profile-list">
+                    <!-- Dinamicamente popolato da JS -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Contenuto principale -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Analisi Biometrica</h1>
+                <div class="active-profile-display">
+                    Profilo attivo: <span id="current-profile-name">Nessuno</span>
+                </div>
+            </header>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" data-target="tab-calculator">Calcolatore</button>
+                <button class="tab-btn" data-target="tab-history">Storico</button>
+                <button class="tab-btn" data-target="tab-charts">Grafici</button>
+            </div>
+
+            <!-- TAB: Calcolatore -->
+            <section id="tab-calculator" class="tab-content active">
+                <form id="calc-form" class="multistep-form">
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                        <div class="step-indicators">
+                            <span class="step-indicator active" data-step="1">1. Dati Base</span>
+                            <span class="step-indicator" data-step="2">2. Circonferenze</span>
+                            <span class="step-indicator" data-step="3">3. Pliche</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Dati Base -->
+                    <div class="form-step active" id="step-1">
+                        <h2>Dati Base</h2>
+                        <div class="grid-2-col">
+                            <div class="input-group">
+                                <label for="age">Età (anni)</label>
+                                <input type="number" id="age" min="1" max="120" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="weight">Peso (kg)</label>
+                                <input type="number" id="weight" step="0.1" min="10" max="300" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="height">Altezza (cm)</label>
+                                <input type="number" id="height" step="0.1" min="50" max="250" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="gender">Genere</label>
+                                <select id="gender" required>
+                                    <option value="male">Uomo</option>
+                                    <option value="female">Donna</option>
+                                </select>
+                            </div>
+                            <div class="input-group full-width">
+                                <label for="activity">Livello Attività Fisica</label>
+                                <select id="activity" required>
+                                    <option value="1.2">Sedentario (poco o nessun esercizio)</option>
+                                    <option value="1.375">Leggero (esercizio leggero 1-3 giorni/settimana)</option>
+                                    <option value="1.55">Moderato (esercizio moderato 3-5 giorni/settimana)</option>
+                                    <option value="1.725">Attivo (esercizio pesante 6-7 giorni/settimana)</option>
+                                    <option value="1.9">Molto Attivo (lavoro fisico pesante o doppio allenamento)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="step-actions right">
+                            <button type="button" class="btn btn-primary btn-next">Avanti <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Circonferenze -->
+                    <div class="form-step" id="step-2">
+                        <h2>Circonferenze (cm)</h2>
+                        <div class="grid-2-col">
+                            <div class="input-group"><label for="girth-shoulders">Spalle</label><input type="number" id="girth-shoulders" step="0.1" min="1" required></div>
+                            <div class="input-group"><label for="girth-chest">Torace</label><input type="number" id="girth-chest" step="0.1" min="1" required></div>
+                            <div class="input-group"><label for="girth-abdomen">Addome</label><input type="number" id="girth-abdomen" step="0.1" min="1" required></div>
+                            <div class="input-group"><label for="girth-hips">Fianchi</label><input type="number" id="girth-hips" step="0.1" min="1" required></div>
+                            <div class="input-group"><label for="girth-arm">Braccio</label><input type="number" id="girth-arm" step="0.1" min="1" required></div>
+                            <div class="input-group"><label for="girth-forearm">Avambraccio</label><input type="number" id="girth-forearm" step="0.1" min="1" required></div>
+                            <div class="input-group"><label for="girth-thigh">Coscia</label><input type="number" id="girth-thigh" step="0.1" min="1" required></div>
+                            <div class="input-group"><label for="girth-calf">Polpaccio</label><input type="number" id="girth-calf" step="0.1" min="1" required></div>
+                        </div>
+                        <div class="step-actions">
+                            <button type="button" class="btn btn-secondary btn-prev"><i class="fa-solid fa-arrow-left"></i> Indietro</button>
+                            <button type="button" class="btn btn-primary btn-next">Avanti <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Plicometria -->
+                    <div class="form-step" id="step-3">
+                        <h2>Plicometria (mm)</h2>
+                        <div class="grid-2-col">
+                            <div class="input-group"><label for="skinfold-triceps">Tricipite</label><input type="number" id="skinfold-triceps" step="0.1" min="0.1" required></div>
+                            <div class="input-group"><label for="skinfold-chest">Petto</label><input type="number" id="skinfold-chest" step="0.1" min="0.1" required></div>
+                            <div class="input-group"><label for="skinfold-midaxillary">Ascella</label><input type="number" id="skinfold-midaxillary" step="0.1" min="0.1" required></div>
+                            <div class="input-group"><label for="skinfold-subscapular">Scapola</label><input type="number" id="skinfold-subscapular" step="0.1" min="0.1" required></div>
+                            <div class="input-group"><label for="skinfold-suprailiac">Fianco</label><input type="number" id="skinfold-suprailiac" step="0.1" min="0.1" required></div>
+                            <div class="input-group"><label for="skinfold-abdomen">Addome</label><input type="number" id="skinfold-abdomen" step="0.1" min="0.1" required></div>
+                            <div class="input-group"><label for="skinfold-thigh">Coscia</label><input type="number" id="skinfold-thigh" step="0.1" min="0.1" required></div>
+                        </div>
+                        <div class="step-actions">
+                            <button type="button" class="btn btn-secondary btn-prev"><i class="fa-solid fa-arrow-left"></i> Indietro</button>
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-calculator"></i> Calcola e Salva</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Risultati (Nascosti di default) -->
+                <div id="results-dashboard" class="results-dashboard hidden">
+                    <h2>Risultati Analisi</h2>
+                    <div class="results-grid">
+                        <div class="result-card" style="--accent-color: #3b82f6;">
+                            <h4>BMI <i class="fa-solid fa-weight-scale" style="opacity: 0.5;"></i></h4>
+                            <div class="value" id="res-bmi">--</div>
+                        </div>
+                        <div class="result-card" style="--accent-color: #10b981;">
+                            <h4>BMR (kcal) <i class="fa-solid fa-fire" style="opacity: 0.5;"></i></h4>
+                            <div class="value" id="res-bmr">--</div>
+                        </div>
+                        <div class="result-card" style="--accent-color: #f59e0b;">
+                            <h4>TDEE (kcal) <i class="fa-solid fa-bolt" style="opacity: 0.5;"></i></h4>
+                            <div class="value" id="res-tdee">--</div>
+                        </div>
+                        <div class="result-card" style="--accent-color: #ef4444;">
+                            <h4>Body Fat % <i class="fa-solid fa-percentage" style="opacity: 0.5;"></i></h4>
+                            <div class="value" id="res-bf">--</div>
+                        </div>
+                        <div class="result-card" style="--accent-color: #8b5cf6;">
+                            <h4>Massa Grassa (kg) <i class="fa-solid fa-droplet" style="opacity: 0.5;"></i></h4>
+                            <div class="value" id="res-fm">--</div>
+                        </div>
+                        <div class="result-card" style="--accent-color: #06b6d4;">
+                            <h4>Massa Magra (kg) <i class="fa-solid fa-dumbbell" style="opacity: 0.5;"></i></h4>
+                            <div class="value" id="res-lbm">--</div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary mt-20" id="btn-new-calc">Nuova Misurazione</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: Storico -->
+            <section id="tab-history" class="tab-content">
+                <div class="history-header-wrapper">
+                    <h2>Storico Misurazioni</h2>
+                    <p>Controlla i tuoi progressi nel tempo.</p>
+                </div>
+                <div id="history-container" class="history-container">
+                    <!-- Popolato da JS -->
+                </div>
+            </section>
+
+            <!-- TAB: Grafici -->
+            <section id="tab-charts" class="tab-content">
+                <div class="charts-header-wrapper">
+                    <h2>Analisi Grafica</h2>
+                    <p>Monitora visivamente i tuoi progressi nel tempo.</p>
+                </div>
+                
+                <div class="chart-controls">
+                    <div class="chart-param-selector">
+                        <label for="chart-parameter">Parametro:</label>
+                        <select id="chart-parameter">
+                            <option value="weight">Peso (kg)</option>
+                            <option value="bodyFat">Body Fat (%)</option>
+                            <option value="bmi">BMI</option>
+                            <option value="tdee">TDEE (kcal)</option>
+                            <option value="fatMass">Massa Grassa (kg)</option>
+                            <option value="lbm">Massa Magra (kg)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="chart-range-selector">
+                        <button class="range-btn" data-range="7">1 Sett</button>
+                        <button class="range-btn active" data-range="30">1 Mese</button>
+                        <button class="range-btn" data-range="90">3 Mesi</button>
+                        <button class="range-btn" data-range="180">6 Mesi</button>
+                        <button class="range-btn" data-range="365">1 Anno</button>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="progress-chart"></canvas>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
