@@ -277,7 +277,7 @@ body {
 .multistep-form {
     background-color: var(--surface-color);
     border-radius: var(--radius);
-    padding: 30px;
+    padding: 20px;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border-color);
 }
@@ -360,6 +360,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-width: 0;
 }
 
 .input-group.full-width {
@@ -373,6 +374,7 @@ label {
 }
 
 input[type="number"], select {
+    width: 100%;
     padding: 12px 16px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
